@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block base_container %}
+<main class="container">
+    <header>
+        <nav class="navar">
+            <div class="container-fluid">
+                <center>
+                    <h1>IT-garden приложение список задач</h1>
+                </center>
+            </div>
+        </nav>
+    </header>
+    <hr>
+
+    <section class="container-fluid">
+        <form method="post">
+            <div class="col-auto">
+                <div class="input-group mb-3">
+                    <input aria-describedby="button-addon2" aria-label="Add event" class="form-control" name="item"
+                        placeholder="Введите текст задачи" type="text" value="{{ item }}" />
+                    <button class="btn btn-outline-primary" data-mdb-ripple-color="dark" id="button-addon2"
+                        type="submit">
+                        Добавить задачу
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+    
+    {% if event %}
+    <article class="card container-fluid">
+        <br />
+        <h4>
+            <strong>
+                Наименование:
+            </strong>
+            {{ event.title }}
+        </h4>
+        <p>
+            <strong>
+                Описание:
+            </strong>
+            {{ event.description }}
+        </p>
+    </article>
+    {% else %}
+    <section class="container-fluid">
+        <h2 align="center">Задачи</h2>
+        <br>
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                {% for event in events %}
+                <li class="list-group-item">
+                    {{ loop.index }}. <a href="/event/{{ event.id }}"> {{ event.title }} </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

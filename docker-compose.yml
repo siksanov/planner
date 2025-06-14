@@ -1,0 +1,30 @@
+services:
+  planner:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: event-panner-api:latest
+    ports:
+      - 8080:8080
+    env_file:
+      - .env.docker
+
+  database:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_BASICAUTH: false
+    env_file:
+      - .env.docker
+
+volumes:
+  data:
