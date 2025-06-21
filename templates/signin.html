@@ -5,19 +5,18 @@
 {% endblock %}
 
 {% block base_container %}
-
 <main>
     <div class="auth">
         <div class="auth_form">
-            <h1>Регистрация</h1>
-            <form action="/signup" method="post">
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"><br>
+            <h1>Авторизация</h1>
+            <form action="/login" method="post">
+                <label for="username">Имя пользователя:</label><br>
+                <input type="text" id="username" name="username"><br>
                 <label for="password">Пароль:</label><br>
                 <input type="password" id="password" name="password"><br>
                 <p>
-                    <input type="submit" value="Зарегистрироваться">
-                    <a href="signin">Войти</a>
+                    <input type="submit" value="Войти">
+                    <a href="signup">Зарегистрироваться</a>
                 </p>
             </form>
         </div>

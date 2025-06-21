@@ -1,10 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse, FileResponse
-
+from fastapi.staticfiles import StaticFiles
 from database.connection import Settings
 from routes.events import event_router
 from routes.users import user_router
+from routes.site import site_router
 
 from contextlib import asynccontextmanager
 
@@ -30,14 +31,18 @@ app.add_middleware(
 )
 settings = Settings()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Register routes
 
-app.include_router(user_router, prefix="/user")
-app.include_router(event_router, prefix="/event")
+app.include_router(user_router, prefix="/api/v1/user")
+app.include_router(event_router, prefix="/api/v1/event")
+app.include_router(site_router, prefix="/site")
+
 
 @app.get("/")
 async def home():
-    return RedirectResponse(url="/event/")
+    return RedirectResponse(url="/site/")
 
 
 if __name__ == "__main__":

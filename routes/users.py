@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi.templating import Jinja2Templates
 from auth.jwt_handler import create_access_token
 from database.connection import Database
 from models.users import User, TokenResponse
@@ -14,14 +13,6 @@ user_router = APIRouter(
 user_database = Database(User)
 hash_password = HashPassword()
 
-templates = Jinja2Templates(directory="templates/")
-
-@user_router.get("/signup")
-async def show_signin_page(request: Request):
-    return templates.TemplateResponse("signup.html",
-    {
-        "request": request
-    })
 
 @user_router.post("/signup")
 async def sign_user_up(user: User) -> dict:
@@ -37,14 +28,6 @@ async def sign_user_up(user: User) -> dict:
     return {
         "message": "User created successfully."
     }
-
-
-@user_router.get("/signin")
-async def show_signin_page(request: Request):
-    return templates.TemplateResponse("sigin.html",
-    {
-        "request": request
-    })
 
 @user_router.post("/signin", response_model=TokenResponse)
 async def sign_user_in(user: OAuth2PasswordRequestForm = Depends()) -> dict:
