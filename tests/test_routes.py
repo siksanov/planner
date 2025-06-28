@@ -8,7 +8,7 @@ from typing import AsyncGenerator, Any
 
 @pytest.fixture(scope="module")
 async def access_token() -> str:
-    return create_access_token("testuser@packt.com")
+    return create_access_token({"sub": "testuser@packt.com"})
 
 @pytest.fixture(scope="module")
 async def mock_event() -> AsyncGenerator[Event,None]:

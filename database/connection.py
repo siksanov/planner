@@ -8,9 +8,11 @@ from models.events import Event
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: Optional[str] = None
-    DATABASE_NAME: Optional[str] = None
-    SECRET_KEY: Optional[str] = None
+    DATABASE_URL: str = 'localhost'
+    DATABASE_NAME: str = 'name'
+    SECRET_KEY: str = 'secret'
+    ALGORITHM: str = 'HS256'
+    EXPIRES_MINUTE: int = 15
 
     async def initialize_database(self):
         client = AsyncIOMotorClient(self.DATABASE_URL)

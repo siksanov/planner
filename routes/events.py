@@ -1,7 +1,7 @@
 from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException, status, Depends
 from database.connection import Database
-
+from typing import Annotated
 from models.events import Event, EventUpdate
 from typing import List
 from auth.authenticate import authenticate
@@ -28,7 +28,7 @@ async def retrieve_event(id: PydanticObjectId) -> Event:
     return event
 
 @event_router.post("/new")
-async def create_event(body: Event, user: str = Depends(authenticate)) -> dict:
+async def create_event(body: Event, user: Annotated[str, Depends(authenticate)]) -> dict:
     body.creator = user
     await event_database.save(body)
     return {
@@ -37,7 +37,7 @@ async def create_event(body: Event, user: str = Depends(authenticate)) -> dict:
 
 @event_router.put("/{id}", response_model=Event)
 async def update_event(id: PydanticObjectId, body: EventUpdate,
-                       user: str = Depends(authenticate)) -> Event:
+                       user: Annotated[str, Depends(authenticate)]) -> Event:
     event = await event_database.get(id)
     if event.creator != user:
         raise HTTPException(
@@ -54,7 +54,7 @@ async def update_event(id: PydanticObjectId, body: EventUpdate,
 
 @event_router.delete("/{id}")
 async def delete_event(id: PydanticObjectId,
-                       user: str = Depends(authenticate)) -> dict:
+                       user: Annotated[str, Depends(authenticate)]) -> dict:
     event = await event_database.get(id)
     if not event:
         raise HTTPException(
