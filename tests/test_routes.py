@@ -27,14 +27,14 @@ async def mock_event() -> AsyncGenerator[Event,None]:
 @pytest.mark.asyncio
 async def test_get_events(default_client: httpx.AsyncClient,
                           mock_event: Event) -> None:
-    response = await default_client.get("/event/")
+    response = await default_client.get("api/v1/event/")
     assert response.status_code == 200
     assert response.json()[0]["_id"] == str(mock_event.id)
 
 @pytest.mark.asyncio
 async def test_get_event(default_client: httpx.AsyncClient,
                          mock_event: Event) -> None:
-    url = f"/event/{str(mock_event.id)}"
+    url = f"api/v1/event/{str(mock_event.id)}"
     response = await default_client.get(url)
 
     assert response.status_code == 200
@@ -68,14 +68,14 @@ async def test_post_event(default_client: httpx.AsyncClient,
         "message": "Event created successfully."
     }
 
-    response = await default_client.post("/event/new",
+    response = await default_client.post("api/v1/event/new",
                                          json=payload, headers=headers)
     assert response.status_code == 200
     assert response.json() == test_response
 
 @pytest.mark.asyncio
 async def test_get_events_count(default_client: httpx.AsyncClient) -> None:
-    response = await default_client.get("/event/")
+    response = await default_client.get("api/v1/event/")
 
     events = response.json()
 
@@ -94,7 +94,7 @@ async def test_update_event(default_client: httpx.AsyncClient,
         "Authorization": f"Bearer {access_token}"
     }
 
-    url = f"/event/{str(mock_event.id)}"
+    url = f"api/v1/event/{str(mock_event.id)}"
 
     response = await default_client.put(url, json=test_payload,
                                          headers=headers)
@@ -113,7 +113,7 @@ async def test_delete_event(default_client: httpx.AsyncClient,
         "Authorization": f"Bearer {access_token}"
     }
 
-    url = f"/event/{str(mock_event.id)}"
+    url = f"api/v1/event/{str(mock_event.id)}"
 
     response = await default_client.delete(url, headers=headers)
 

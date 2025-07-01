@@ -36,7 +36,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Register routes
 
 app.include_router(user_router, prefix="/api/v1/user")
-app.include_router(event_router, prefix="/event")
+app.include_router(event_router, prefix="/api/v1/event")
 app.include_router(site_router, prefix="/site")
 
 

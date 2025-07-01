@@ -10,9 +10,9 @@
     <div class="auth">
         <div class="auth_form">
             <h1>Регистрация</h1>
-            <form action="/signup" method="post">
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"><br>
+            <form action="/api/v1/user/signup" method="post" onsubmit="validatePasswords(event); return true;">
+                <label for="username">Email:</label><br>
+                <input type="email" id="username" name="username"><br>
                 <label for="password">Пароль:</label><br>
                 <input type="password" id="password" name="password"><br>
                 <label for="confirm_password">Подтвердите пароль:</label><br>
@@ -26,3 +26,15 @@
     </div>
 </main>
 {% endblock %}
+
+<script>
+    function validatePasswords(event) {
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirm_password').value;
+        
+        if(password !== confirmPassword){
+            alert("Пароли не совпадают!");
+            event.preventDefault(); // Предотвращаем отправку формы
+        }
+    }
+</script>
